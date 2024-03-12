@@ -7,7 +7,11 @@ const camera = new THREE.PerspectiveCamera(
     0.1,
     1000
 );
-const renderer = new THREE.WebGL1Renderer();
+const renderer = new THREE.WebGL1Renderer(
+    {
+        antialias: true
+    }
+);
 renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
   
@@ -18,6 +22,8 @@ renderer.setSize(window.innerWidth, window.innerHeight);
         camera.aspect = width/height;
         camera.updateProjectionMatrix();
     })
+const textture = new THREE.TextureLoader().load('images/cube.jpeg');
+textture.repeat.set(0.6, 0.6);
     const geometry = new THREE.BoxGeometry(
         2, //depth
         2,//width
@@ -26,8 +32,8 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 
     const material = new THREE.MeshBasicMaterial(
         {
-            color: 0x00ff21,
-            wireframe:false
+            wireframe:false,
+            map:textture
         }
     );
 
@@ -38,6 +44,9 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 
     function animation(){
         requestAnimationFrame(animation);
+
+        cube.rotation.x += 0.002;
+        cube.rotation.y += 0.002;
         renderer.render(scene,camera);
     }
 
